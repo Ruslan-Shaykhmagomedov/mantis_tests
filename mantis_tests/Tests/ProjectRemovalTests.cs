@@ -29,7 +29,7 @@ namespace mantis_tests
 
             List<ProjectData> newProjects = app.Project.GetProjectList(); // Get new list of projects
 
-            // Убеждаемся, что количество проектов уменьшилось на 1
+            
             Assert.That(newProjects.Count, Is.EqualTo(oldProjects.Count - 1)); // Check diff between new and old list
         }
     }
