@@ -23,7 +23,7 @@ namespace mantis_tests
 
         public void OpenLoginPage()
         {
-            manager.Driver.Url = "http://localhost/mantisbt-2.27.1/login_page.php";
+            manager.Driver.Url = "http://localhost/mantisbt-2.27.3/login_page.php";
         }
 
         public void FillUserNameField(AccountData account)
