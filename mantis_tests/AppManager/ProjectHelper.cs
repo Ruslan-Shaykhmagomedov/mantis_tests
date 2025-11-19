@@ -28,7 +28,7 @@ namespace mantis_tests
 
         public void SubmitCreateNewProject()
         {
-            driver.FindElement(By.XPath("//button[@type='submit']")).Click();
+            driver.FindElement(By.CssSelector("form[action='manage_proj_create_page.php'] button[type='submit']")).Click();
         }
 
         public void FillProjectForm(ProjectData project)
@@ -38,21 +38,40 @@ namespace mantis_tests
 
         public void SubmitAddProject()
         {
-            driver.FindElement(By.XPath("//div[3]/input")).Click();
+            driver.FindElement(By.CssSelector("input[value='Add Project']")).Click();
         }
-        public List<ProjectData> GetProjectList()
+        public List<ProjectData> GetProjectList(AccountData account)
         {
             List<ProjectData> projects = new List<ProjectData>();
-            OpenProjectsTab();
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
 
-
-            ICollection<IWebElement> projectLinks = driver.FindElements(By.CssSelector("table.table-bordered tbody tr td:first-child a")); // find every project links 
-
-            foreach (IWebElement link in projectLinks)
+            try
             {
-                string name = link.Text.Trim();
-                projects.Add(new ProjectData(name));
+                Mantis.ProjectData[] projectArray = client.mc_projects_get_user_accessible(account.Name, account.Password); // Get projects via SOAP service  
+
+                foreach (Mantis.ProjectData project in projectArray)
+                {
+                    projects.Add(new ProjectData()
+                    {
+                        Name = project.name
+                    });
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error during get projects :" + ex.Message);
+                throw;
+            }
+            //OpenProjectsTab();
+
+
+            //ICollection<IWebElement> projectLinks = driver.FindElements(By.CssSelector("table.table-bordered tbody tr td:first-child a")); // find every project links 
+
+            //foreach (IWebElement link in projectLinks)
+            //{
+            //    string name = link.Text.Trim();
+            //    projects.Add(new ProjectData(name));
+            //}
             return projects;
         }
         public void Remove(ProjectData projectToRemove)
@@ -70,12 +89,12 @@ namespace mantis_tests
 
         public void SubmitDeleteProjectButton()
         {
-            driver.FindElement(By.XPath("//form[@id='manage-proj-update-form']/div/div[3]/button[2]")).Click();
+            driver.FindElement(By.CssSelector("button[formaction='manage_proj_delete.php']")).Click();
         }
 
         public void SubmitDeleteProjectButton2()
         {
-            driver.FindElement(By.XPath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/form/input[10]")).Click();
+            driver.FindElement(By.CssSelector("input[value='Delete Project']")).Click();
         }
     }
 }

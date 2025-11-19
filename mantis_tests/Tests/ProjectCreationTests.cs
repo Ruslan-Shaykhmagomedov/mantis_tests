@@ -14,15 +14,19 @@ namespace mantis_tests
         [Test]
         public void TestProjectCreation()
         {
-            List<ProjectData> oldProjects = app.Project.GetProjectList(); // Get old list of project
+            AccountData account = new AccountData()
+            {
+                Name = "administrator",
+                Password = "root"
+            };
 
-            ProjectData newProject = new ProjectData("newProject");
+            List<ProjectData> oldProjects = app.Project.GetProjectList(account); // Get old list of project
+
+            ProjectData newProject = new ProjectData("newProject7");
             app.Project.Create(newProject);
 
-            List<ProjectData> newProjects = app.Project.GetProjectList(); // Get new list of project
+            List<ProjectData> newProjects = app.Project.GetProjectList(account); // Get new list of project
             oldProjects.Add(newProject);
-            oldProjects.Sort();
-            newProjects.Sort();
             Assert.AreEqual(oldProjects, newProjects);
         }
     }

@@ -38,7 +38,7 @@ namespace mantis_tests
 
         public void Submit()
         {
-            driver.FindElement(By.CssSelector("input.width-40.pull-right.btn.btn-success.btn-inverse.bigger-110")).Click();
+            driver.FindElement(By.CssSelector("input[value='Login']")).Click();
         }
     }
 }

@@ -22,9 +22,9 @@ namespace mantis_tests
         {
             AccountData account = new AccountData()
             {
-                Name = "testUser",
-                Password = "password",
-                Email = "TestEmail@localhost.localdomain",
+                Name = "mantis",
+                Password = "mantis",
+                Email = "mantis@localhost.localdomain",
             };
 
             List<AccountData> accounts = app.Admin.GetAllAccounts();
@@ -34,9 +34,6 @@ namespace mantis_tests
             {
                 app.Admin.DeleteAccount(existingAccount);
             }
-
-            app.James.Delete(account);
-            app.James.Add(account);
             
             app.Registration.Register(account);
         }
