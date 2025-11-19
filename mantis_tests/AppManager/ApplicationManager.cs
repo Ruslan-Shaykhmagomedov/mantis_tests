@@ -21,19 +21,23 @@ namespace mantis_tests
         public MailHelper Mail { get; set; }
         public ProjectHelper Project { get; set; }
         public LoginHelper Auth { get; set; }
+        public AdminHelper Admin { get; set; }
+        public APIHelper API { get; set; }
 
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
         private ApplicationManager()  // Constructor and initialization for helpers
         {
             driver = new FirefoxDriver();
-            baseURL = "http://localhost";
+            baseURL = "http://localhost/mantisbt-2.27.1";
             Registration = new RegistrationHelper (this);
             Ftp = new FtpHelper(this);
             James = new JamesHelper(this);
             Mail = new MailHelper(this);
             Project = new ProjectHelper(this);
             Auth = new LoginHelper(this);
+            Admin = new AdminHelper(this,baseURL);
+            API = new APIHelper(this);
         }
         ~ApplicationManager()
         {
@@ -53,7 +57,7 @@ namespace mantis_tests
             if (! app.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
-                newInstance.driver.Url = "http://localhost/mantisbt-2.27.1/manage_user_page.php";
+                newInstance.driver.Url = newInstance.baseURL + "/manage_user_page.php";
                 app.Value = newInstance;
             }
             return app.Value;
